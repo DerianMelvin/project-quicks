@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Lato } from "next/font/google";
 import "./globals.css";
+import LayoutWrapper from "@/components/layout/LayoutWrapper";
 
 const lato = Lato({
   weight: ["400", "700"],
@@ -22,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${lato.className} w-screen h-screen bg-chats-green`}>
-        {children}
+        <LayoutWrapper>{children}</LayoutWrapper>
       </body>
     </html>
   );
