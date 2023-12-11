@@ -18,7 +18,7 @@ export default function NavigationLinks() {
   const isTaskPage = pathname == "/task";
 
   const [viewMenu, setViewMenu] = useState(isHomepage ? false : true);
-  
+
   const returnToHomepage = () => {
     router.push("/");
     setViewMenu(false);
@@ -28,29 +28,31 @@ export default function NavigationLinks() {
     <nav className="z-50 flex items-stretch justify-end gap-[26px] text-primary-white">
       {viewMenu && (
         <>
-          {/* Task Page */}
-          <Link
-            href={"/task"}
-            className="flex flex-col items-center justify-center gap-2"
-          >
-            {isHomepage && <span className="font-bold">Task</span>}
+          {!isTaskPage && (
+            <Link
+              href={"/task"}
+              className="flex flex-col items-center justify-center gap-2"
+            >
+              {isHomepage && <span className="font-bold">Task</span>}
 
-            <button className="w-[68px] h-[68px] rounded-full bg-primary-white flex flex-col items-center justify-center self-end gap-2">
-              <TaskIcon />
-            </button>
-          </Link>
+              <button className="w-[68px] h-[68px] rounded-full bg-[#F2F2F2] flex flex-col items-center justify-center self-end gap-2">
+                <TaskIcon />
+              </button>
+            </Link>
+          )}
 
-          {/* Inbox Page */}
-          <Link
-            href={"/inbox"}
-            className="flex flex-col items-center justify-center gap-2"
-          >
-            {isHomepage && <span className="font-bold">Inbox</span>}
+          {!isInboxPage && (
+            <Link
+              href={"/inbox"}
+              className="flex flex-col items-center justify-center gap-2"
+            >
+              {isHomepage && <span className="font-bold">Inbox</span>}
 
-            <button className="w-[68px] h-[68px] rounded-full bg-primary-white flex flex-col items-center justify-center self-end gap-2">
-              <InboxIcon />
-            </button>
-          </Link>
+              <button className="w-[68px] h-[68px] rounded-full bg-[#F2F2F2] flex flex-col items-center justify-center self-end gap-2">
+                <InboxIcon />
+              </button>
+            </Link>
+          )}
         </>
       )}
 
