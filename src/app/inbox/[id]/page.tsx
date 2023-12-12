@@ -1,5 +1,6 @@
 import ChatList from "@/components/pages/inbox/[id]/ChatList";
 import MessageHeader from "@/components/pages/inbox/[id]/MessageHeader";
+import MessageInput from "@/components/pages/inbox/[id]/MessageInput";
 import { Post } from "@/types/dummyApi/GetPost";
 import { GetPostComment } from "@/types/dummyApi/GetPostComment";
 import axios from "axios";
@@ -41,14 +42,14 @@ export default async function InboxMessage({
   const { post, postComment }: GetPostDataType = await getPostData(params.id);
 
   return (
-    <main className="w-[734px] h-[737px] rounded-md overflow-y-auto bg-white">
+    <main className="w-[734px] h-[737px] flex flex-col rounded-md overflow-y-auto bg-white">
       <MessageHeader post={post} postComment={postComment} />
 
-      <div className="w-full flex flex-col items-center gap-3 px-[29px] py-3">
+      <div className="w-full grow flex flex-col items-center gap-3 px-[29px] py-3 overflow-y-auto">
         <ChatList postComment={postComment} />
       </div>
 
-      {/* Chat Input Form */}
+      <MessageInput />
     </main>
   );
 }

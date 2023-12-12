@@ -9,11 +9,15 @@ type ChatListType = {
 export default function ChatList({ postComment }: ChatListType) {
   const { data } = postComment;
 
+  const uniqueOwnerIdList = data
+    .map((comment) => comment.owner.id)
+    .filter((val, i, self) => self.findIndex((v) => v === val) === i);
+
   return data.length === 0 ? (
     <EmptyChat />
   ) : (
     data.map((comment: Comment) => (
-      <ChatBox key={comment.id} comment={comment} />
+      <ChatBox key={comment.id} comment={comment} ownerIdList={uniqueOwnerIdList} />
     ))
   );
 }
