@@ -1,18 +1,33 @@
-import { Comment, GetPostComment } from "@/types/dummyApi/GetPostComment";
+import ChatList from "@/components/pages/inbox/[id]/ChatList";
+import MessageHeader from "@/components/pages/inbox/[id]/MessageHeader";
+import { Post } from "@/types/dummyApi/GetPost";
+import { GetPostComment } from "@/types/dummyApi/GetPostComment";
 import axios from "axios";
 import { revalidatePath } from "next/cache";
 
+type GetPostDataType = {
+  post: Post;
+  postComment: GetPostComment;
+};
+
 async function getPostData(id: string) {
-  const res = await axios.get(
-    `https://dummyapi.io/data/v1/post/${id}/comment`,
-    {
-      headers: {
-        "app-id": `${process.env.DUMMYAPI_APP_ID}`,
-      },
-    }
+  const config = {
+    headers: {
+      "app-id": `${process.env.DUMMYAPI_APP_ID}`,
+    },
+  };
+
+  const post = await axios.get(
+    `https://dummyapi.io/data/v1/post/${id}`,
+    config
   );
 
-  return res.data;
+  const postComment = await axios.get(
+    `https://dummyapi.io/data/v1/post/${id}/comment`,
+    config
+  );
+
+  return { post: post.data, postComment: postComment.data };
 }
 
 export default async function InboxMessage({
@@ -23,19 +38,17 @@ export default async function InboxMessage({
   // Revalidate cached data on next page visit
   revalidatePath("/inbox/[id]", "page");
 
-  const { data }: GetPostComment = await getPostData(params.id);
+  const { post, postComment }: GetPostDataType = await getPostData(params.id);
 
   return (
-    <main className="w-[734px] h-[737px] px-8 py-6 rounded-md overflow-y-auto bg-white">
-      <div className="w-full flex flex-col gap-3">
-        {data.length === 0 ? (
-          <div>No comments to display</div>
-        ) : (
-          data.map((comment: Comment) => (
-            <span key={comment.id}>{comment.message}</span>
-          ))
-        )}
+    <main className="w-[734px] h-[737px] rounded-md overflow-y-auto bg-white">
+      <MessageHeader post={post} postComment={postComment} />
+
+      <div className="w-full flex flex-col items-center gap-3 px-[29px] py-3">
+        <ChatList postComment={postComment} />
       </div>
+
+      {/* Chat Input Form */}
     </main>
   );
 }

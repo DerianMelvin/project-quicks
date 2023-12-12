@@ -1,11 +1,11 @@
-export interface GetPostComment {
+export type GetPostComment = {
   data: Comment[];
   total: number;
   page: number;
   limit: number;
 }
 
-export interface Comment {
+export type Comment = {
   id: string;
   message: string;
   owner: Owner;
@@ -13,7 +13,7 @@ export interface Comment {
   publishDate: Date;
 }
 
-export interface Owner {
+export type Owner = {
   id: string;
   title: string;
   firstName: string;
