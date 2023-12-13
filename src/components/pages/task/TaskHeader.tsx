@@ -22,12 +22,12 @@ export default function TaskHeader() {
         </button>
 
         {viewDropdown && (
-          <ul className="absolute top-12 w-72 flex flex-col border rounded-md border-primary-gray">
+          <ul className="absolute top-12 w-72 flex flex-col border rounded-md border-primary-gray bg-white">
             {taskDropdown.map((task) => (
               <li
                 key={task}
                 onClick={() => closeDropDown()}
-                className="px-3 py-[6px] cursor-pointer border-b border-primary-gray last:border-transparent"
+                className="px-3 py-[6px] cursor-pointer border-b border-primary-gray first:rounded-t-md last:rounded-b-md last:border-transparent hover:bg-primary-white"
               >
                 {task}
               </li>
