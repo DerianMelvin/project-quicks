@@ -5,9 +5,14 @@ import { useState } from "react";
 import TaskDetails from "./TaskDetails";
 import CheckboxCheckedIcon from "@/components/icons/CheckboxCheckedIcon";
 import CheckboxIcon from "@/components/icons/CheckboxIcon";
+import { Post } from "@/types/dummyApi/GetPost";
+import { taskDateFormat } from "@/utils/FormatDate";
 
-export default function Task() {
+export default function Task({ post }: { post: Post }) {
+  const { text, owner, publishDate } = post;
+
   const [viewDetails, setViewDetails] = useState(false);
+  const [viewOptions, setViewOptions] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
 
   return (
@@ -30,17 +35,20 @@ export default function Task() {
             </button>
           )}
 
-          <h2 className="max-w-sm font-bold line-clamp-2">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-            eius ipsa tempora eveniet nihil, pariatur, a minima eaque dolores
-            autem commodi voluptatibus exercitationem laudantium laboriosam
-            ratione corporis alias eos vero.
+          <h2
+            className={`max-w-sm font-bold line-clamp-2 ${
+              isChecked && "line-through text-primary-gray"
+            }`}
+          >
+            {text}
           </h2>
         </div>
 
-        <div className="flex items-center gap-4 text-sm">
+        <div className="relative flex items-center gap-4 text-sm">
           <span className="text-indicator-red">2 Days Left</span>
-          <span className="">12/06/2021</span>
+          <span className="">
+            {taskDateFormat.format(new Date(publishDate))}
+          </span>
 
           <button
             onClick={() => setViewDetails((prev) => !prev)}
@@ -51,13 +59,22 @@ export default function Task() {
             <ExpandMoreIcon />
           </button>
 
-          <button className="w-4 flex justify-center py-2">
+          <button
+            onClick={() => setViewOptions((prev) => !prev)}
+            className="w-4 flex justify-center py-2"
+          >
             <MoreHorizontalIcon />
           </button>
+
+          {viewOptions && (
+            <button className="absolute right-0 top-7 w-32 px-3 py-2 text-left text-base rounded-md border border-primary-gray text-indicator-red bg-white">
+              Delete
+            </button>
+          )}
         </div>
       </div>
 
-      {viewDetails && <TaskDetails />}
+      {viewDetails && <TaskDetails post={post} />}
     </div>
   );
 }
