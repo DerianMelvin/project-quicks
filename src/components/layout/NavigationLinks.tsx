@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import TaskIcon from "../icons/TaskIcon";
 import InboxIcon from "../icons/InboxIcon";
@@ -10,11 +10,12 @@ import MenuIcon from "../icons/MenuIcon";
 
 export default function NavigationLinks() {
   const router = useRouter();
+  const params = useParams();
 
   // Get current pathname
   const pathname = usePathname();
   const isHomepage = pathname == "/";
-  const isInboxPage = pathname == "/inbox";
+  const isInboxPage = pathname == "/inbox" || pathname == `/inbox/${params.id}`;
   const isTaskPage = pathname == "/task";
 
   const [viewMenu, setViewMenu] = useState(isHomepage ? false : true);
