@@ -20,7 +20,7 @@ export default function MessagePreview({ post }: { post: Post }) {
         </div>
 
         <div className="absolute left-4 w-[34px] h-[34px] flex items-center justify-center rounded-full bg-primary-blue">
-          <PersonIcon colorFill="fill-primary-white" />
+          <PersonIcon colorFill="fill-white" />
         </div>
       </div>
 
