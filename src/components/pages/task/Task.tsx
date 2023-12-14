@@ -16,9 +16,11 @@ export default function Task({ post }: { post: Post }) {
   const [isChecked, setIsChecked] = useState(false);
 
   const calculateDaysBetween = (current: Date, selected: Date) => {
-    const timeDiff = Math.abs(current.getTime() - selected.getTime());
-    const totalDays = Math.round(Math.abs(timeDiff / (24 * 60 * 60 * 1000)));
-    return totalDays > 30 ? "30+" : totalDays;
+    const timeDiff = selected.getTime() - current.getTime();
+    const totalDays = Math.round(timeDiff / (24 * 60 * 60 * 1000));
+    const formatDays = Math.abs(totalDays);
+
+    return totalDays < 0 ? `${formatDays} Days Ago` : `${formatDays} Days Left`;
   };
 
   return (
@@ -53,8 +55,7 @@ export default function Task({ post }: { post: Post }) {
         <div className="relative flex items-center gap-4 text-sm">
           {!isChecked && (
             <span className="text-indicator-red">
-              {calculateDaysBetween(new Date(), new Date(publishDate))} Days
-              Left
+              {calculateDaysBetween(new Date(), new Date(publishDate))}
             </span>
           )}
           <span className="">
