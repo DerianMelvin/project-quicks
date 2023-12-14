@@ -9,11 +9,17 @@ import { Post } from "@/types/dummyApi/GetPost";
 import { taskDateFormat } from "@/utils/FormatDate";
 
 export default function Task({ post }: { post: Post }) {
-  const { text, owner, publishDate } = post;
+  const { text, publishDate } = post;
 
   const [viewDetails, setViewDetails] = useState(false);
   const [viewOptions, setViewOptions] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+
+  const calculateDaysBetween = (current: Date, selected: Date) => {
+    const timeDiff = Math.abs(current.getTime() - selected.getTime());
+    const totalDays = Math.round(Math.abs(timeDiff / (24 * 60 * 60 * 1000)));
+    return totalDays > 30 ? "30+" : totalDays;
+  };
 
   return (
     <div className="flex flex-col gap-2 border-b py-[22px] border-primary-gray text-primary-darkGray">
@@ -45,7 +51,12 @@ export default function Task({ post }: { post: Post }) {
         </div>
 
         <div className="relative flex items-center gap-4 text-sm">
-          <span className="text-indicator-red">2 Days Left</span>
+          {!isChecked && (
+            <span className="text-indicator-red">
+              {calculateDaysBetween(new Date(), new Date(publishDate))} Days
+              Left
+            </span>
+          )}
           <span className="">
             {taskDateFormat.format(new Date(publishDate))}
           </span>
