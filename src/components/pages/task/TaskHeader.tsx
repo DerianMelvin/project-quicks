@@ -8,6 +8,7 @@ export default function TaskHeader() {
 
   const [viewDropdown, setViewDropdown] = useState(false);
 
+  const [currentDropdown, setCurrentDropdown] = useState("My Tasks");
   const taskDropdown = ["Personal Errands", "Urgent To-Do"];
 
   const closeDropDown = () => setViewDropdown((prev) => !prev);
@@ -20,7 +21,7 @@ export default function TaskHeader() {
           onClick={() => closeDropDown()}
           className="px-3 py-[7px] flex items-center gap-2 border rounded-md border-primary-gray"
         >
-          <span>My Tasks</span>
+          <span>{currentDropdown}</span>
           <ExpandMoreIcon />
         </button>
 
@@ -29,7 +30,10 @@ export default function TaskHeader() {
             {taskDropdown.map((task) => (
               <li
                 key={task}
-                onClick={() => closeDropDown()}
+                onClick={() => {
+                  closeDropDown();
+                  setCurrentDropdown(task);
+                }}
                 className="px-3 py-[6px] cursor-pointer border-b border-primary-gray first:rounded-t-md last:rounded-b-md last:border-transparent hover:bg-primary-white"
               >
                 {task}
