@@ -1,8 +1,11 @@
 "use client";
 import ExpandMoreIcon from "@/components/icons/ExpandMoreIcon";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { CreateTaskContext } from "./TaskUseContext";
 
 export default function TaskHeader() {
+  const { setCreateTask } = useContext(CreateTaskContext);
+
   const [viewDropdown, setViewDropdown] = useState(false);
 
   const taskDropdown = ["Personal Errands", "Urgent To-Do"];
@@ -37,7 +40,10 @@ export default function TaskHeader() {
       </div>
 
       {/* New Task */}
-      <button className="min-w-fit px-4 py-2 rounded-md font-bold bg-primary-blue text-white">
+      <button
+        onClick={() => setCreateTask(true)}
+        className="min-w-fit px-4 py-2 rounded-md font-bold bg-primary-blue text-white"
+      >
         New Task
       </button>
     </div>
